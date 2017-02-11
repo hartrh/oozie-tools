@@ -112,9 +112,9 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
 
     # source config
     if [ "${classification}" != "all" ]; then
-      config="${config_dir}/${provider}_${database}_${classification}_${catalog}.sh"
+      config="${configs_dir}/${provider}_${database}_${classification}_${catalog}.sh"
     else
-      config="${config_dir}/${provider}_${database}_${catalog}.sh"
+      config="${configs_dir}/${provider}_${database}_${catalog}.sh"
     fi
     if [ -f ${config} ]; then
       source ${config}
