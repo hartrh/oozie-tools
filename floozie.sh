@@ -134,7 +134,7 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
       cp "${templates_dir}/job.properties" "${job_properties_file}";
 
       # source credentials
-      source ${config_dir}
+      source ${config}
 
       # update values
       sed -i "s/_namenode/${namenode[1]}/g" ${job_properties_file}
