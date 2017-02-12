@@ -1,1 +1,1 @@
-Order #,Catalog,Schema,Table Name,# of Rows, Status, Sqoop Time (sec),Job ID
+Provider,Database,Classification,Catalog,Schema,Table,Status,Start Time,End Time,Job ID

@@ -60,8 +60,10 @@ SCRIPTPATH=`dirname "${BASH_SOURCE[0]}"`;
 hdfs_cluster="hdfs://${hdfs_namenode}:8020";
 configs_dir="${SCRIPTPATH}/configs";
 properties_dir="${SCRIPTPATH}/properties";
+reports_dir="${SCRIPTPATH}/reports";
 templates_dir="${SCRIPTPATH}/templates"
-status_wait='';
+color="teal"
+
 
 #------------------------------------------------------------------------------
 # MAIN
@@ -151,17 +153,34 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
       sed -i "s/_sql_user/${SQL_USER}/g" ${job_properties_file}
       sed -i "s/_sql_pass/${SQL_PASS}/g" ${job_properties_file}
       sed -i "s/_conn_string/${CONN_STRING}/g" ${job_properties_file}
+      sed -i "s/_color/${color}/g" ${job_properties_file}
     fi
 
+    # submit workflow to oozie
+    job_id=$(oozie job -run -doas hdfs -oozie http://oozie.service.${color}.consul:11000/oozie -config ${job_properties_file})
+
+    # wait for job to complete
+    while grep -P "Status\s*\:\s*Running" <(oozie job -info ${job_id} -oozie http://oozie.service.${color}.consul:11000/oozie); do
+      sleep -s 60
+    done
+
+    # query oozie for job metrics
+    mapfile -t metrics < <(grep -P "Status\s+:\s+(\w+)|Started\s+\:\s+([a-zA-Z0-9:-\s]+)|Ended\s+\:\s+([a-zA-Z0-9:-\s]+)" <(oozie job -info ${job_id} -oozie http://oozie.service.${color}.consul:11000/oozie))
+    status=$(${metrics[0]} | awk -F':' '{ print $2 }' | tr -d ' ')
+    start_time=$(${metrics[1]} | awk -F':' '{ print $2 }' | tr -d ' ')
+    end_time=$(${metrics[2]} | awk -F':' '{ print $2 }' | tr -d ' ')
+
+    # create report file
+    report="${reports_dir}/${provider}_${database}_${classification}_${catalog}_${year}${month}${day}.csv"
+    if [ ! -f "${report}" ]; then
+      if [ -f "${reports_dir}/example.csv" ]; then
+        cp "${reports_dir}/example.csv" ${report};
+      else
+        echo "==> ERROR: Template not found ${reports_dir}/example.csv. Aborting script.";
+        exit 1;
+      fi
+      # report metrics
+      echo "${provider},${database},${classification},${catalog},${schema},${table},${status},${start_time},${end_time},${job_id}" >> ${report}
+    fi
   fi
 done
-
-# submit workflow to oozie
-#job_id=''
-#action_name=''
-
-# query oozie for job status
-#results=( $(grep -P "^Status\s*:\s*(.*)" <(oozie job -info ${job_id}@${action_name})) )
-
-  # if job fails
-  # if job suceeds
