@@ -146,7 +146,11 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
       sed -i "s/_year/${year}/g" ${job_properties_file}
       sed -i "s/_provider/${provider}/g" ${job_properties_file}
       sed -i "s/_database/${database}/g" ${job_properties_file}
-      sed -i "s/_classification/${classification}/g" ${job_properties_file}
+      if [ "${classification}" != "all" ]; then
+        sed -i "s/_classification/${classification}/g" ${job_properties_file}
+      else
+        sed -i "s/_classification//g" ${job_properties_file}
+      fi
       sed -i "s/_catalog/${catalog}/g" ${job_properties_file}
       sed -i "s/_schema/${schema}/g" ${job_properties_file}
       sed -i "s/_table/${table}/g" ${job_properties_file}
@@ -158,6 +162,12 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
 
     # submit workflow to oozie
     job_id=$(oozie job -run -doas hdfs -oozie http://oozie.service.${color}.consul:11000/oozie -config ${job_properties_file})
+
+    # verify job was submitted
+    if [ -n ${job_id} ]; then
+      echo "==> ERROR: Job was not sucessfully submitted. Aborting script.";
+      exit 1;
+    fi
 
     # wait for job to complete
     while grep -P "Status\s*\:\s*Running" <(oozie job -info ${job_id} -oozie http://oozie.service.${color}.consul:11000/oozie); do
