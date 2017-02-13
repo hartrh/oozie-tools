@@ -70,10 +70,7 @@ color="teal"
 #------------------------------------------------------------------------------
 
 # get hadoop cluster info
-namenode=();
-for nn in `hdfs getconf -nnRpcAddresses`; do
-  namenode[${#namenode[@]}+1]="${nn}";
-done
+namenode=`hdfs getconf -confkey dfs.nameservices`
 jobtracker=`hdfs getconf -confKey yarn.resourcemanager.address`
 
 # get hdfs workflow list
@@ -161,10 +158,11 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
     fi
 
     # submit workflow to oozie
-    job_id=$(oozie job -run -doas hdfs -oozie http://oozie.service.${color}.consul:11000/oozie -config ${job_properties_file})
+    job_output=$(oozie job -run -doas hdfs -oozie http://oozie.service.${color}.consul:11000/oozie -config ${job_properties_file});
+    job_id=$( echo "${job_output}" | awk '{ print $2 }' );
 
     # verify job was submitted
-    if [ -n ${job_id} ]; then
+    if [ -z "${job_id}" ]; then
       echo "==> ERROR: Job was not sucessfully submitted. Aborting script.";
       exit 1;
     fi
