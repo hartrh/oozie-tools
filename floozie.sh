@@ -57,7 +57,6 @@ fi
 #------------------------------------------------------------------------------
 
 SCRIPTPATH=`dirname "${BASH_SOURCE[0]}"`;
-hdfs_cluster="hdfs://${hdfs_namenode}:8020";
 configs_dir="${SCRIPTPATH}/configs";
 properties_dir="${SCRIPTPATH}/properties";
 reports_dir="${SCRIPTPATH}/reports";
@@ -140,7 +139,7 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
       source ${config}
 
       # update values
-      sed -i "s/_namenode/${namenode[1]}/g" ${job_properties_file}
+      sed -i "s/_namenode/${namenode}/g" ${job_properties_file}
       sed -i "s/_jobtracker/${jobtracker}/g" ${job_properties_file}
       sed -i "s/_month/${month}/g" ${job_properties_file}
       sed -i "s/_day/${day}/g" ${job_properties_file}
