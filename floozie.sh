@@ -168,7 +168,7 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
 
     # wait for job to complete
     while grep -P "Status\s+:\s+RUNNING" <(oozie job -info ${job_id} -oozie http://oozie.service.${color}.consul:11000/oozie); do
-      sleep -s 60
+      sleep 60;
     done
 
     # query oozie for job metrics
