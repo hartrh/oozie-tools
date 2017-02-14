@@ -173,21 +173,23 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
 
     # query oozie for job metrics
     mapfile -t metrics < <(grep -P "Status\s+:\s+(\w+)|Started\s+\:\s+([a-zA-Z0-9:-\s]+)|Ended\s+\:\s+([a-zA-Z0-9:-\s]+)" <(oozie job -info ${job_id} -oozie http://oozie.service.${color}.consul:11000/oozie))
-    status=$( echo "${metrics[0]}" | awk -F': ' '{ print $2 }')
-    start_time=$( echo "${metrics[1]}" | awk -F': ' '{ print $2 }')
+    status=$(echo "${metrics[0]}" | awk -F': ' '{ print $2 }')
+    start_time=$(echo "${metrics[1]}" | awk -F': ' '{ print $2 }')
     end_time=$(echo "${metrics[2]}" | awk -F': ' '{ print $2 }')
 
     # create report file
     report="${reports_dir}/${provider}_${database}_${classification}_${catalog}_${year}${month}${day}.csv"
-    if [ ! -f "${report}" ]; then
+    if [ ! -f ${report} ]; then
       if [ -f "${reports_dir}/example.csv" ]; then
         cp "${reports_dir}/example.csv" ${report};
       else
         echo "==> ERROR: Template not found ${reports_dir}/example.csv. Aborting script.";
         exit 1;
       fi
-      # report metrics
-      echo "${provider},${database},${classification},${catalog},${schema},${table},${status},${start_time},${end_time},${job_id}" >> ${report}
     fi
+
+    # report metrics
+    echo "${provider},${database},${classification},${catalog},${schema},${table},${status},${start_time},${end_time},${job_id}" >> ${report}
+
   fi
 done
