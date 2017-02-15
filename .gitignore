@@ -3,6 +3,5 @@
 
 # oozie-tools
 configs/*
-!configs/example.sh
 properties/*
 reports/*
