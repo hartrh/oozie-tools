@@ -68,7 +68,7 @@ templates_dir="${SCRIPTPATH}/templates"
 #------------------------------------------------------------------------------
 
 # get environment info
-color=$(grep -P "^color:" <(cat /etc/salt/grains) | awk -F': ' '{ print $2 }');
+color=$(grep -P "^color:" <(sudo cat /etc/salt/grains) | awk -F': ' '{ print $2 }');
 if [ -z ${color} ]; then
   echo "==> ERROR: environment color can't be detected. Aborting script.";
   exit 1;
