@@ -5,3 +5,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased](unreleased)
 
 - no new features in development at this time
+
+## [0.1.0](https://github.com/hartrh/oozie-tools/compare/0.1.0...0.1.0) (Feb 15, 2017)
+
+FEATURES:
+
+- initial commit
