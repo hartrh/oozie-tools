@@ -70,7 +70,7 @@ color="teal"
 
 # get hadoop cluster info
 namenode=`hdfs getconf -confkey dfs.nameservices`
-jobtracker=`hdfs getconf -confKey yarn.resourcemanager.address`
+jobtracker=`hdfs getconf -confKey yarn.resourcemanager.cluster-id`
 
 # get hdfs workflow list
 for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflow_dir}) | awk '{ print $NF }'`; do
@@ -168,7 +168,7 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
 
     # wait for job to complete
     while grep -q -P "Status\s+:\s+RUNNING" <(oozie job -info ${job_id} -oozie http://oozie.service.${color}.consul:11000/oozie); do
-      sleep 60;
+      sleep 30;
     done
 
     # query oozie for job metrics
