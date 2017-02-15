@@ -1,9 +1,8 @@
 # osx
 .DS_Store
 
-# floozie
+# oozie-tools
 configs/*
 !configs/example.sh
 properties/*
 reports/*
-!reports/example.csv
