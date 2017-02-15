@@ -6,6 +6,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - no new features in development at this time
 
+## [0.2.0](https://github.com/hartrh/oozie-tools/compare/0.2.0...0.1.2) (Feb 15, 2017)
+
+FEATURES:
+
+- modify the way configurations are consumed.
+
+BUG FIXES:
+
+- previous versions did not support multiple belt jobs running concurrently 
+
 ## [0.1.2](https://github.com/hartrh/oozie-tools/compare/0.1.2...0.1.1) (Feb 15, 2017)
 
 BUG FIXES:

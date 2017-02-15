@@ -22,15 +22,13 @@ Intelligent Oozie belt-fed job submission based on HDFS directory path input. Re
 $ git clone https://github.com/hartrh/oozie-tools.git
 ```
 
-Using the `templates/config_example.sh` config as an example, create a shell script within the `config/` directory using the naming convention `provider_database_classification_catalog.sh`, with the appropriate values. All special characters must be escaped (`\`).
+Using the `templates/config_example.txt` config as an example, create a text file within the `config/` directory using the naming convention `provider_database_classification_catalog.txt`, with the appropriate values. All special characters must be escaped (`\`).
 
 ```
-#!/usr/bin/env bash
-
 # credentials and connection string for example.com
-export SQL_USER='imauser'
-export SQL_PASS='imapassword'
-export CONN_STRING='jdbc\:jtds\:sqlserver\:\/\/example.service._color.consul\:1453\/catalog\;domain=EXAMPLE.COM\;useCursors=true'
+sql_user: imauser
+sql_pass: imapassword
+conn_string: jdbc\:jtds\:sqlserver\:\/\/example.service._color.consul\:1453\/catalog\;domain=EXAMPLE.COM\;useCursors=true
 ```
 
 ##### Usage
