@@ -1,0 +1,4 @@
+# credentials and connection string for example.com
+sql_user: test
+sql_pass: fc5e038d38a57032085441e7fe7010b0
+conn_string: jdbc:jtds:sqlserver://example.service.cobalt.consul:1453/catalog;domain=EXAMPLE.COM;useCursors=true

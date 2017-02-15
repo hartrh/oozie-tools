@@ -116,12 +116,14 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
 
     # source config
     if [ "${classification}" != "all" ]; then
-      config="${configs_dir}/${provider}_${database}_${classification}_${catalog}.sh"
+      config="${configs_dir}/${provider}_${database}_${classification}_${catalog}.txt"
     else
-      config="${configs_dir}/${provider}_${database}_${catalog}.sh"
+      config="${configs_dir}/${provider}_${database}_${catalog}.txt"
     fi
     if [ -f ${config} ]; then
-      source ${config}
+      sql_user=$(grep -P "$sql_user" <(cat ${config}) | awk -F' ' '{ print $2}')
+      sql_pass=$(grep -P "$sql_pass" <(cat ${config}) | awk -F' ' '{ print $2}')
+      conn_string=$(grep -P "$conn_string" <(cat ${config}) | awk -F' ' '{ print $2}')
     else
       echo "==> ERROR: missing ${config} file. Aborting script.";
       exit 1;
@@ -156,9 +158,9 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
       sed -i "s/_catalog/${catalog}/g" ${job_properties_file}
       sed -i "s/_schema/${schema}/g" ${job_properties_file}
       sed -i "s/_table/${table}/g" ${job_properties_file}
-      sed -i "s/_sql_user/${SQL_USER}/g" ${job_properties_file}
-      sed -i "s/_sql_pass/${SQL_PASS}/g" ${job_properties_file}
-      sed -i "s/_conn_string/${CONN_STRING}/g" ${job_properties_file}
+      sed -i "s/_sql_user/${sql_user}/g" ${job_properties_file}
+      sed -i "s/_sql_pass/${sql_pass}/g" ${job_properties_file}
+      sed -i "s/_conn_string/${conn_string}/g" ${job_properties_file}
       sed -i "s/_color/${color}/g" ${job_properties_file}
     fi
 
