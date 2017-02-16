@@ -6,6 +6,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - no new features in development at this time
 
+## [0.2.1](https://github.com/hartrh/oozie-tools/compare/0.2.1...0.2.0) (Feb 15, 2017)
+
+BUG FIXES:
+
+- fix config parsing
+
 ## [0.2.0](https://github.com/hartrh/oozie-tools/compare/0.2.0...0.1.2) (Feb 15, 2017)
 
 FEATURES:

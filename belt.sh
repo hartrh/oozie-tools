@@ -114,16 +114,16 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
       exit 1;
     fi
 
-    # source config
+    # get config vars
     if [ "${classification}" != "all" ]; then
       config="${configs_dir}/${provider}_${database}_${classification}_${catalog}.txt"
     else
       config="${configs_dir}/${provider}_${database}_${catalog}.txt"
     fi
     if [ -f ${config} ]; then
-      sql_user=$(grep -P "$sql_user" <(cat ${config}) | awk -F' ' '{ print $2}')
-      sql_pass=$(grep -P "$sql_pass" <(cat ${config}) | awk -F' ' '{ print $2}')
-      conn_string=$(grep -P "$conn_string" <(cat ${config}) | awk -F' ' '{ print $2}')
+      sql_user=`grep "sql_user" ${config} | awk -F' ' '{ print $2}'`
+      sql_pass=`grep "sql_pass" ${config} | awk -F' ' '{ print $2}'`
+      conn_string=`grep "conn_string" ${config} | awk -F' ' '{ print $2}'`
     else
       echo "==> ERROR: missing ${config} file. Aborting script.";
       exit 1;
@@ -142,9 +142,6 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
       else
         cp "${templates_dir}/job_sans_class.properties" "${job_properties_file}";
       fi 
-
-      # source credentials
-      source ${config}
 
       # update values
       sed -i "s/_namenode/${namenode}/g" ${job_properties_file}
