@@ -6,6 +6,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - no new features in development at this time
 
+## [0.3.2](https://github.com/hartrh/oozie-tools/compare/0.3.2...0.3.1) (Mar 6, 2017)
+
+BUG FIXES:
+
+- exit script when last table is processed instaed of falsifying running boolean
+
 ## [0.3.1](https://github.com/hartrh/oozie-tools/compare/0.3.1...0.3.0) (Mar 6, 2017)
 
 BUG FIXES:
