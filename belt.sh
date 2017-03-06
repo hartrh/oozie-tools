@@ -35,7 +35,7 @@ function is_workflow () {
 # ARGUEMENTS
 #------------------------------------------------------------------------------
 
-while getopts :w:azh FLAG; do
+while getopts :w:a:z:h FLAG; do
   case $FLAG in
     w)  #set option "w"
       workflow_dir=$OPTARG;
@@ -192,6 +192,8 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
       if [ -z "${job_id}" ]; then
         echo "==> ERROR: Job was not sucessfully submitted. Aborting script.";
         exit 1;
+      else
+        echo "==> Submitted Oozie job for ${provider}_${database}_${classification}_${catalog}_${schema}_${table}: ${job_id}";
       fi
 
       # wait for job to complete
