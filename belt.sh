@@ -71,7 +71,7 @@ configs_dir="${SCRIPTPATH}/configs";
 properties_dir="${SCRIPTPATH}/properties";
 reports_dir="${SCRIPTPATH}/reports";
 templates_dir="${SCRIPTPATH}/templates"
-process=false;
+running=false;
 
 #------------------------------------------------------------------------------
 # MAIN
@@ -128,14 +128,14 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
     # first_table is undefined
     if [ ${first_table} ]; then
       if [ "${table}" == "${first_table}" ]; then
-        process=true;
+        running=true;
       fi
     else
-      process=true;
+      running=true;
     fi
 
     # process table
-    if [ "${process}" = true ]; then
+    if [ "${running}" = true ]; then
 
       # get config vars
       if [ "${classification}" != "all" ]; then
@@ -223,10 +223,10 @@ for obj in `grep -P '^(?!(Found\s([0-9]*)\sitems))' <(hadoop fs -ls -R ${workflo
 
     fi
 
-    # set end point if table name maches ${last_table}
+    # set exit if table name maches ${last_table}
     if [ ${last_table} ]; then
       if [ "${table}" == "${last_table}" ]; then
-        process=false;
+        exit 0;
       fi
     fi
 
