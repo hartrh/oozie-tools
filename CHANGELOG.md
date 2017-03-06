@@ -6,6 +6,13 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - no new features in development at this time
 
+## [0.3.1](https://github.com/hartrh/oozie-tools/compare/0.3.1...0.3.0) (Mar 6, 2017)
+
+BUG FIXES:
+
+- fix table range argument assignment
+- add log statement for job submittion
+
 ## [0.3.0](https://github.com/hartrh/oozie-tools/compare/0.3.0...0.2.1) (Mar 6, 2017)
 
 FEATURES
