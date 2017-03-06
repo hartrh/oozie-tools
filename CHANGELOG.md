@@ -6,6 +6,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 - no new features in development at this time
 
+## [0.3.0](https://github.com/hartrh/oozie-tools/compare/0.3.0...0.2.1) (Mar 6, 2017)
+
+FEATURES
+
+- add flags for start_table and end_table to allow submission of table range.
+
 ## [0.2.1](https://github.com/hartrh/oozie-tools/compare/0.2.1...0.2.0) (Feb 15, 2017)
 
 BUG FIXES:
